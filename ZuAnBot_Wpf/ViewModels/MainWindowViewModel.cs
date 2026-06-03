@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -139,10 +139,6 @@ namespace ZuAnBot_Wpf.ViewModels
                     }
 
                     var manifestStream = ManifestHelper.GetManifestStream("wordsLibrary.json");
-                    using (var stream = File.Create(LocalConfigHelper.WordsLibraryPath))
-                    {
-                        manifestStream.CopyTo(stream);
-                    }
                 }
 
                 Library = JsonHelper.DeserializeWordsLibrary();//反序列化本地词库

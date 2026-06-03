@@ -15,7 +15,9 @@ namespace ZuAnBot_Wpf.Helper
     {
         public static Stream GetManifestStream(string jsonName)
         {
-            return Assembly.GetExecutingAssembly().GetManifestResourceStream($"ZuAnBot_Wpf.Assets.{jsonName}");
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = $"{assembly.GetName().Name}.Assets.{jsonName}";
+            return assembly.GetManifestResourceStream(resourceName);
         }
     }
 }
