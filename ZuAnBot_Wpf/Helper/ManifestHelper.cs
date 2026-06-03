@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +15,24 @@ namespace ZuAnBot_Wpf.Helper
     {
         public static Stream GetManifestStream(string jsonName)
         {
-            return Assembly.GetExecutingAssembly().GetManifestResourceStream($"ZuAnBot_Wpf.Assets.{jsonName}");
+            var assembly = typeof(ManifestHelper).Assembly;
+            var expectedSuffix = $".Assets.{jsonName}";
+            var resourceName = assembly
+                .GetManifestResourceNames()
+                .FirstOrDefault(name => name.EndsWith(expectedSuffix, StringComparison.OrdinalIgnoreCase));
+
+            if (resourceName == null)
+            {
+                throw new FileNotFoundException($"未能找到嵌入资源“{jsonName}”", jsonName);
+            }
+
+            var stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream == null)
+            {
+                throw new FileNotFoundException($"未能打开嵌入资源“{resourceName}”", resourceName);
+            }
+
+            return stream;
         }
     }
 }

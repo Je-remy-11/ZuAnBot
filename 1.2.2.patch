@@ -1,0 +1,90 @@
+diff --git a/ZuAnBot_Wpf/Helper/ManifestHelper.cs b/ZuAnBot_Wpf/Helper/ManifestHelper.cs
+index 48895f8..4cb7f8b 100644
+--- a/ZuAnBot_Wpf/Helper/ManifestHelper.cs
++++ b/ZuAnBot_Wpf/Helper/ManifestHelper.cs
+@@ -1,4 +1,4 @@
+-﻿using System;
++using System;
+ using System.Collections.Generic;
+ using System.IO;
+ using System.Linq;
+@@ -15,7 +15,24 @@ namespace ZuAnBot_Wpf.Helper
+     {
+         public static Stream GetManifestStream(string jsonName)
+         {
+-            return Assembly.GetExecutingAssembly().GetManifestResourceStream($"ZuAnBot_Wpf.Assets.{jsonName}");
++            var assembly = typeof(ManifestHelper).Assembly;
++            var expectedSuffix = $".Assets.{jsonName}";
++            var resourceName = assembly
++                .GetManifestResourceNames()
++                .FirstOrDefault(name => name.EndsWith(expectedSuffix, StringComparison.OrdinalIgnoreCase));
++
++            if (resourceName == null)
++            {
++                throw new FileNotFoundException($"未能找到嵌入资源“{jsonName}”", jsonName);
++            }
++
++            var stream = assembly.GetManifestResourceStream(resourceName);
++            if (stream == null)
++            {
++                throw new FileNotFoundException($"未能打开嵌入资源“{resourceName}”", resourceName);
++            }
++
++            return stream;
+         }
+     }
+ }
+diff --git a/ZuAnBot_Wpf/ZuAnBot_Wpf.csproj b/ZuAnBot_Wpf/ZuAnBot_Wpf.csproj
+index c2b27e9..075e850 100644
+--- a/ZuAnBot_Wpf/ZuAnBot_Wpf.csproj
++++ b/ZuAnBot_Wpf/ZuAnBot_Wpf.csproj
+@@ -19,10 +19,6 @@
+ 	</PropertyGroup>
+ 
+ 	<ItemGroup>
+-		<!--<PackageReference Include="Costura.Fody" Version="5.7.0">
+-			<PrivateAssets>all</PrivateAssets>
+-			<IncludeAssets>runtime; build;  compile;contentfiles;analyzers;native;buildtransitive</IncludeAssets>
+-		</PackageReference>-->
+ 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+ 		<PackageReference Include="RestSharp" Version="108.0.3" />
+ 		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="108.0.3" />
+@@ -45,10 +41,10 @@
+ 
+ 	<ItemGroup>
+ 	  <None Remove="Assets\Images\复制.png" />
++	  <None Remove="Assets\log4net.config" />
+ 	  <None Remove="Assets\Url.json" />
++	  <None Remove="Assets\wordsLibrary.json" />
+ 	  <None Remove="build.bat" />
+-	  <None Remove="FodyWeavers.xml" />
+-	  <None Remove="FodyWeavers.xsd" />
+ 	</ItemGroup>
+ 
+ 	<ItemGroup>
+@@ -56,9 +52,15 @@
+ 	</ItemGroup>
+ 
+ 	<ItemGroup>
+-		<EmbeddedResource Include="Assets\log4net.config" />
+-		<EmbeddedResource Include="Assets\Url.json" />
+-		<EmbeddedResource Include="Assets\wordsLibrary.json" />
++		<EmbeddedResource Include="Assets\log4net.config">
++			<LogicalName>ZuAnBot_Wpf.Assets.log4net.config</LogicalName>
++		</EmbeddedResource>
++		<EmbeddedResource Include="Assets\Url.json">
++			<LogicalName>ZuAnBot_Wpf.Assets.Url.json</LogicalName>
++		</EmbeddedResource>
++		<EmbeddedResource Include="Assets\wordsLibrary.json">
++			<LogicalName>ZuAnBot_Wpf.Assets.wordsLibrary.json</LogicalName>
++		</EmbeddedResource>
+ 	</ItemGroup>
+ 
+ 	<ItemGroup>
+@@ -85,4 +87,4 @@
+ 		<VisualStudio><UserProperties /></VisualStudio>
+ 	</ProjectExtensions>
+ 
+-</Project>
+\ No newline at end of file
++</Project>
