@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -139,6 +139,10 @@ namespace ZuAnBot_Wpf.ViewModels
                     }
 
                     var manifestStream = ManifestHelper.GetManifestStream("wordsLibrary.json");
+                    if (manifestStream == null)
+                    {
+                        throw new InvalidOperationException("嵌入式资源 wordsLibrary.json 未找到，请检查项目资源嵌入配置。");
+                    }
                     using (var stream = File.Create(LocalConfigHelper.WordsLibraryPath))
                     {
                         manifestStream.CopyTo(stream);

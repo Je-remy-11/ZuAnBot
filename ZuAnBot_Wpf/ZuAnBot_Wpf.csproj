@@ -44,12 +44,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Assets\Images\复制.png" />
-	  <None Remove="Assets\Url.json" />
-	  <None Remove="build.bat" />
-	  <None Remove="FodyWeavers.xml" />
-	  <None Remove="FodyWeavers.xsd" />
-	</ItemGroup>
+    <None Remove="Assets\Images\复制.png" />
+    <None Remove="Assets\log4net.config" />
+    <None Remove="Assets\Url.json" />
+    <None Remove="Assets\wordsLibrary.json" />
+    <None Remove="build.bat" />
+  </ItemGroup>
 
 	<ItemGroup>
 	  <Content Include="Assets\Images\祖安.ico" />
