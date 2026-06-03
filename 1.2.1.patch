@@ -1,0 +1,44 @@
+diff --git a/ZuAnBot_Wpf/Helper/ManifestHelper.cs b/ZuAnBot_Wpf/Helper/ManifestHelper.cs
+index 48895f8..a30b890 100644
+--- a/ZuAnBot_Wpf/Helper/ManifestHelper.cs
++++ b/ZuAnBot_Wpf/Helper/ManifestHelper.cs
+@@ -1,4 +1,4 @@
+-﻿using System;
++using System;
+ using System.Collections.Generic;
+ using System.IO;
+ using System.Linq;
+@@ -15,7 +15,17 @@ namespace ZuAnBot_Wpf.Helper
+     {
+         public static Stream GetManifestStream(string jsonName)
+         {
+-            return Assembly.GetExecutingAssembly().GetManifestResourceStream($"ZuAnBot_Wpf.Assets.{jsonName}");
++            var assembly = Assembly.GetExecutingAssembly();
++            var resourceNames = assembly.GetManifestResourceNames();
++            var targetName = $"Assets.{jsonName}";
++            var resourceName = resourceNames.FirstOrDefault(name => name.EndsWith(targetName));
++            
++            if (resourceName != null)
++            {
++                return assembly.GetManifestResourceStream(resourceName);
++            }
++            
++            return null;
+         }
+     }
+ }
+diff --git a/ZuAnBot_Wpf/ZuAnBot_Wpf.csproj b/ZuAnBot_Wpf/ZuAnBot_Wpf.csproj
+index c2b27e9..bcbe519 100644
+--- a/ZuAnBot_Wpf/ZuAnBot_Wpf.csproj
++++ b/ZuAnBot_Wpf/ZuAnBot_Wpf.csproj
+@@ -51,9 +51,7 @@
+ 	  <None Remove="FodyWeavers.xsd" />
+ 	</ItemGroup>
+ 
+-	<ItemGroup>
+-	  <Content Include="Assets\Images\祖安.ico" />
+-	</ItemGroup>
++
+ 
+ 	<ItemGroup>
+ 		<EmbeddedResource Include="Assets\log4net.config" />

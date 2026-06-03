@@ -51,9 +51,7 @@
 	  <None Remove="FodyWeavers.xsd" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Content Include="Assets\Images\祖安.ico" />
-	</ItemGroup>
+
 
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\log4net.config" />
