@@ -1,0 +1,10 @@
+diff --git a/ZuAnBot_Wpf/FodyWeavers.xml b/ZuAnBot_Wpf/FodyWeavers.xml
+index 17b72d5..ff00a8f 100644
+--- a/ZuAnBot_Wpf/FodyWeavers.xml
++++ b/ZuAnBot_Wpf/FodyWeavers.xml
+@@ -1,3 +1,3 @@
+-﻿<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
++﻿﻿<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+   <Costura DisableCompression='true'/>
+ </Weavers>
+\ No newline at end of file
